@@ -3,12 +3,15 @@
 
 (defn- error-msg
   [data-type json-node]
-  (str "Invalid data for required " (name data-type) " type: " json-node))
+  (str "Invalid data for required "
+       (name data-type)
+       " type: " json-node))
 
-(defn- array?
+(defn- assert-array
   [json-node schema-node]
   (if-not (sequential? json-node)
-    ["Element[" (-> schema-node :name keyword) "] is not an 'array' type"]))
+    [(str "Element[" (-> schema-node :name keyword)
+          "] is not an 'array' type")]))
 
 (defn ref-schema [schema-node]
   (if (contains? schema-node :$ref)
@@ -90,7 +93,7 @@
 (defmethod validate-data :array
   [json-node schema-node]
   (apply conj []
-    (array? json-node schema-node)
+    (assert-array json-node schema-node)
     (validate-const-type json-node schema-node)
     (validate-const-length json-node schema-node)))
 

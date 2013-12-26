@@ -64,41 +64,39 @@
 
 (defn assert-no-duplicate-fields
   [schema-node]
-  (if (sequential? (:fields schema-node))
-      (if-not (= (-> schema-node :fields count)
-               (->> (:fields schema-node)
-                    (map :name)
-                    (apply hash-set)
-                    count))
-      [(str "Duplicate names found in schema definition: " 
-            schema-node)])))
+  (let [fields (:fields schema-node)]
+    (if (sequential? fields)
+        (if-not (= (count fields)
+                   (count (frequencies fields)))
+          [(str "Duplicate names found in schema definition: "
+                schema-node)]))))
 
 (defmulti validate-schema
   (fn [schema-node]
     (if (or (not (nil? (assert-type-decl schema-node)))
             (and (sequential? schema-node)
                  (empty? schema-node)))
-      :error)
+      :default)
     (-> schema-node :type keyword)))
+
+(defn validate-subschema
+  [errors element]
+  (if (or (not (map? element))
+          (empty? element))
+    [(str "Invalid schema node definition: " element)]
+    (if (empty? (filter not-empty (vals element)))
+        [(str "Schema node must contain fields: " element)]
+        (conj errors
+              (validate-schema
+                (assoc element :type :unnamed-type))))))
 
 (defn validate-const-length
   [schema-node]
-  (when-let [type (:constLength schema-node)]
-    (if (or (not (sequential? type))
-            (empty? type))
-      [(str "Invalid constLength attribute: " type)]
-      (reduce
-        (fn [m e]
-          (if (or (not (map? e))
-                  (empty? e))
-            [(str "Invalid schema node definition: " e)]
-            (if (empty? (filter not-empty (vals e)))
-                [(str "Schema node must contain fields: " e)]
-                (conj m (validate-schema (assoc e
-                                                :type
-                                                :unnamed-type))))))
-        []
-        type))))
+  (when-let [types (:constLength schema-node)]
+    (if (or (not (sequential? types))
+            (empty? types))
+      [(str "Invalid constLength attribute: " types)]
+      (reduce validate-subschema [] types))))
 
 (defn validate-const-type
   [schema-node]
@@ -147,10 +145,6 @@
 (defmethod validate-schema :string
   [schema-node]
   (assert-type-and-name schema-node))
-
-(defmethod validate-schema :error
-  [schema-node]
-  ["Invalid type declaration"])
 
 (defmethod validate-schema :unnamed-type
   [schema-node]

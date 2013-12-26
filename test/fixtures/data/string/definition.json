@@ -1,0 +1,9 @@
+{
+    "type":"object",
+    "fields":[
+        {
+            "name":"string",
+            "type":"string"
+        }
+    ]
+}

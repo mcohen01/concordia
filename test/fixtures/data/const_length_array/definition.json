@@ -1,0 +1,22 @@
+{
+    "type":"array",
+    "constLength":[
+        {
+            "type":"boolean"
+        },
+        {
+            "type":"number"
+        },
+        {
+            "type":"string"
+        },
+        {
+            "type":"object",
+            "fields":[]
+        },
+        {
+            "type":"array",
+            "constLength":[]
+        }
+    ]
+}

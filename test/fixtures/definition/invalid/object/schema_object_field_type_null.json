@@ -1,0 +1,9 @@
+{
+    "type":"object",
+    "fields":[
+        {
+            "name":"name",
+            "field":null
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+{
+    "type":"array",
+    "constType":{
+        "type":"array",
+        "constLength":[]
+    }
+}

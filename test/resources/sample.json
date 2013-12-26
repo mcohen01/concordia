@@ -1,0 +1,29 @@
+{
+    "first_name": "Michael",
+    "last_name":"Jenkins",
+    "birthday":{
+        "year":1985,
+        "month":12,
+        "day":3
+    },
+    "email_addresses":[
+        {
+            "local":"jojenki",
+            "domain":"cens.ucla.edu",
+            "localman": {"ssn": "23455"},
+            "jagged_array": [true, "foo", 42]
+        },
+
+        {
+            "local":"jojenki",
+            "domain":"cens.ucla.edu",
+            "localman": {"ssn": "23455"},
+            "jagged_array": [true, "foo", 43]
+        }
+    ],
+    "permissions":[
+        true,
+        true,
+        42
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "type":"object",
+    "fields":[
+        {
+            "name":"object",
+            "type":"object",
+            "fields":[]
+        }
+    ]
+}

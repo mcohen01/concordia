@@ -1,0 +1,10 @@
+{
+    "type":"object",
+    "fields":[
+        {
+            "name":"field1",
+            "type":"boolean",
+            "optional":true
+        }
+    ]
+}

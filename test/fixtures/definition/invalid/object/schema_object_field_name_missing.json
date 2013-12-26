@@ -1,0 +1,8 @@
+{
+    "type":"object",
+    "fields":[
+        {
+            "type":"boolean"
+        }
+    ]
+}

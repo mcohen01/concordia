@@ -1,0 +1,63 @@
+{
+    "type":"object",
+    "doc":"The root will always be a JSON object.",
+    "fields":[
+        {
+            "name":"first_name",
+            "type":"string",
+            "doc":"The user's first name."
+        },
+        {
+            "name":"last_name",
+            "type":"string",
+            "doc":"The user's last name."
+        },
+        {
+            "name":"email_addresses",
+            "type":"array",
+            "doc":"The user's email addresses.",
+            "constType":{
+                "type":"object",
+                "doc":"Break each email address down into its individual components.",
+                "fields":[
+                    {
+                        "name":"local",
+                        "type":"string",
+                        "doc":"The local part of the email address. The part before the '@' symbol."
+                    },
+                    {
+                        "name":"localman",
+                        "type":"object",
+                        "fields": [
+                            {"name": "ssn",
+                             "type": "string"}
+                        ]
+                    },
+                    {
+                        "name": "jagged_array",
+                        "type": "array",
+                        "constLength": [
+                            {"type":"boolean"},
+                            {"type":"string"},
+                            {"type":"number"}
+                        ]
+                    },
+                    {
+                        "name":"domain",
+                        "type":"string",
+                        "doc":"The domain part of the email address. The part after the '@' symbol."
+                    }
+                ]
+            }
+        },
+        {
+            "name":"permissions",
+            "type":"array",
+            "constLength": [
+                {"type":"boolean"},
+                {"type":"boolean"},
+                {"type":"number"}
+            ]
+        }
+    ]
+}

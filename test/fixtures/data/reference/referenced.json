@@ -1,0 +1,27 @@
+{
+    "type":"object",
+    "fields":[
+        {
+            "name":"boolean",
+            "type":"boolean"
+        },
+        {
+            "name":"number",
+            "type":"number"
+        },
+        {
+            "name":"string",
+            "type":"string"
+        },
+        {
+            "name":"object",
+            "type":"object",
+            "fields":[]
+        },
+        {
+            "name":"array",
+            "type":"array",
+            "constLength":[]
+        }
+    ]
+}

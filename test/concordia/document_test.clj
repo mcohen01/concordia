@@ -7,14 +7,14 @@
 
   (filter not-empty
           (flatten
-            (validate-type {:first_name "Michael"}
+            (validate-data {:first_name "Michael"}
                            {:type "object"
                             :fields [{:name "first_name"
                                       :type "string"}]}))) => empty?
 
   (first
     (filter not-empty
-            (validate-type {:first_name 42}
+            (validate-data {:first_name 42}
                            {:type "object"
                             :fields [{:name "first_name"
                                       :type "string"}]}))) => 
@@ -22,7 +22,7 @@
 
   (filter not-empty
           (flatten
-            (validate-type {:first_name 42
+            (validate-data {:first_name 42
                           :last_name "Cohen"
                           :gender "male"}
                          {:type "object"

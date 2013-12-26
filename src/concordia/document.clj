@@ -29,7 +29,7 @@
        (reduce resolve-field-schema [])
        flatten))
   
-(defmulti validate-type
+(defmulti validate-data
   (fn [json-node schema-node]
     (-> schema-node :type keyword)))
 
@@ -43,9 +43,9 @@
             (if (and (nil? data)
                      (not (true? (:optional element))))
                 (str "Missing field: " (if field (name field)))
-                (validate-type data schema))))))
+                (validate-data data schema))))))
 
-(defmethod validate-type :object
+(defmethod validate-data :object
   [json-node schema-node]
   (conj []
     (if-not (map? json-node)
@@ -63,7 +63,7 @@
           (->> schema-node
                :constType
                ref-schema
-               (validate-type e)
+               (validate-data e)
                (conj m)))
         []
         json-node)))
@@ -82,12 +82,12 @@
                 (->> (dec @counter)
                      (nth types)
                      ref-schema
-                     (validate-type e)
+                     (validate-data e)
                      (conj m)))
               []
               json-node)))))
 
-(defmethod validate-type :array
+(defmethod validate-data :array
   [json-node schema-node]
   (apply conj []
     (array? json-node schema-node)
@@ -100,20 +100,20 @@
                 (true? (:optional ~schema-node)))
      (do ~@body)))
 
-(defmethod validate-type :boolean
+(defmethod validate-data :boolean
   [json-node schema-node]
   (if-not-optional json-node schema-node
     (if-not (or (true? json-node)
                 (false? json-node))
         (error-msg :boolean json-node))))
 
-(defmethod validate-type :number
+(defmethod validate-data :number
   [json-node schema-node]
   (if-not-optional json-node schema-node
     (if-not (number? json-node)
         (error-msg :number json-node))))
 
-(defmethod validate-type :string
+(defmethod validate-data :string
   [json-node schema-node]
   (if-not-optional json-node schema-node
     (if-not (string? json-node)
